@@ -97,29 +97,39 @@
                     "Text": "TapBody_3"
                 },
                 {
-                    "File": "",
+                    "File": "motions/haru_g_m01.motion3.json",
+                    "FadeInTime": 0.5,
+                    "FadeOutTime": 0.5,
                     "Sound": "sounds/haru_normal_6.wav",
-                    "Text": "233232323"
+                    "Text": "TapBody_4"
                 },
                 {
-                    "File": "",
+                    "File": "motions/haru_g_m02.motion3.json",
+                    "FadeInTime": 0.5,
+                    "FadeOutTime": 0.5,
                     "Sound": "",
-                    "Text": ""
+                    "Text": "TapBody_5"
                 },
                 {
-                    "File": "",
+                    "File": "motions/haru_g_m03.motion3.json",
+                    "FadeInTime": 0.5,
+                    "FadeOutTime": 0.5,
                     "Sound": "",
-                    "Text": ""
+                    "Text": "TapBody_6"
                 },
                 {
-                    "File": "",
+                    "File": "motions/haru_g_m04.motion3.json",
+                    "FadeInTime": 0.5,
+                    "FadeOutTime": 0.5,
                     "Sound": "",
-                    "Text": ""
+                    "Text": "TapBody_7"
                 },
                 {
-                    "File": "",
+                    "File": "motions/haru_g_m05.motion3.json",
+                    "FadeInTime": 0.5,
+                    "FadeOutTime": 0.5,
                     "Sound": "",
-                    "Text": ""
+                    "Text": "TapBody_8"
                 }
             ]
         },

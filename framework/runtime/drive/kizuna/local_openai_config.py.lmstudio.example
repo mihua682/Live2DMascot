@@ -1,0 +1,11 @@
+# 本地 OpenAI 配置示例 - LM Studio
+# 使用前请确保已安装 LM Studio 并加载模型
+
+# LM Studio 默认地址
+BASE_URL = "http://localhost:1234/v1"
+
+# 模型名称（使用 LM Studio 中加载的模型）
+MODEL = "local-model"
+
+# API Key（LM Studio 不需要，留空）
+API_KEY = ""

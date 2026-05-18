@@ -13,7 +13,9 @@ class GalDialog(QMainWindow):
         self.bg_color = QColor(bg_color)
         self.opacity = opacity
         self.max_width = max_width
-        self.font = QFont(font[0], font[1])
+        # 确保字体大小大于0
+        font_size = max(1, font[1]) if len(font) > 1 else 14
+        self.font = QFont(font[0], font_size)
         self.dialog = None
         self.text_label = QLabel()
         self.text_label.setAlignment(Qt.AlignmentFlag.AlignCenter)

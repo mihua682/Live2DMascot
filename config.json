@@ -15,15 +15,15 @@
     "clickTransparent": false,
     "clickEnable": true,
     "trackEnable": true,
-    "stayOnTop": false,
+    "stayOnTop": true,
     "visible": true,
     "windowSize": [
         200,
         300
     ],
     "windowPos": [
-        1240,
-        226
+        1641,
+        617
     ],
     "fps": 30,
     "iconPath": null,

@@ -1,0 +1,15 @@
+# 本地 OpenAI 配置示例 - Ollama
+# 使用前请确保已安装 Ollama 并下载模型
+
+# Ollama 默认地址
+BASE_URL = "http://localhost:11434/v1"
+
+# 推荐模型（选择一个）：
+# - qwen2.5:7b (通义千问，中文支持好)
+# - llama3.2:3b (轻量级)
+# - mistral:7b (性能优秀)
+# - gemma2:9b (高质量)
+MODEL = "qwen2.5:7b"
+
+# API Key（Ollama 不需要，留空）
+API_KEY = ""

@@ -1,0 +1,5 @@
+# 百度千帆大模型 API 配置示例文件
+# 请复制此文件为 qianfan_token.py 并填入您的真实密钥
+
+API_KEY = "your_api_key_here"
+SECRET_KEY = "your_secret_key_here"

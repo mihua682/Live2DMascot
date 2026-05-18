@@ -23,6 +23,19 @@
 
 ![chat](./images/2024-11-13%2021-32-33.gif)
 
+### AI 聊天接口支持
+
+本项目支持多种 AI 聊天接口：
+
+1. **本地 OpenAI 兼容 API**（推荐）
+   - 支持 Ollama、LM Studio、LocalAI 等
+   - 完全免费，隐私保护，离线可用
+   - 详见 [LOCAL_OPENAI_GUIDE.md](./LOCAL_OPENAI_GUIDE.md)
+
+2. **百度千帆大模型**
+   - 需要配置 API Key
+   - 详见 `framework/runtime/drive/kizuna/qianfan_token.py`
+
 使用其他聊天接口仅需修改 [kizuna_impl.py](./framework/runtime/drive/kizuna/kizuna_impl.py) 的 `doReaction` 函数。
 
 ## 运行

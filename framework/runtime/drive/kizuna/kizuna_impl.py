@@ -6,6 +6,8 @@ from framework.runtime.core.kizuna.kizuna import Kizuna
 from framework.runtime.core.kizuna.moment import Moment
 from framework.runtime.drive.kizuna import qianfan_token
 from framework.runtime.drive.kizuna.qianfan import Qianfan
+from framework.runtime.drive.kizuna.local_openai import LocalOpenAI
+from framework.runtime.drive.kizuna import local_openai_config
 from framework.runtime.drive.looper.looper_impl_qt import QtLooper
 from framework.runtime.drive.window.kizuna_link import KizunaLink
 from framework.utils import log
@@ -20,11 +22,17 @@ class KizunaImpl(Kizuna):
         self.anchorW = None
         self.anchorX = None
         self.qianfan: Qianfan | None = None
+        self.local_openai: LocalOpenAI | None = None
         self.__qtHandler: Handler | None = None
         self.__link: KizunaLink | None = None
 
         self.popupX = None
         self.popupY = None
+        
+        # 配置：使用本地 OpenAI 还是百度千帆
+        # True = 使用本地 OpenAI (Ollama/LM Studio等)
+        # False = 使用百度千帆
+        self.USE_LOCAL_OPENAI = True
 
     def doInitialize(self, wPos: LiveData, wSize: LiveData):
         self.__qtHandler = Handler(Looper.getLooper(QtLooper.name))
@@ -33,10 +41,20 @@ class KizunaImpl(Kizuna):
         msg.data = self.receiver
         self.__qtHandler.post(msg)
 
-        self.qianfan = Qianfan(
-            qianfan_token.API_KEY,
-            qianfan_token.SECRET_KEY
-        )
+        # 根据配置初始化不同的 AI 服务
+        if self.USE_LOCAL_OPENAI:
+            log.Info("[Kizuna] 使用本地 OpenAI 兼容 API")
+            self.local_openai = LocalOpenAI(
+                base_url=local_openai_config.BASE_URL,
+                model=local_openai_config.MODEL,
+                api_key=local_openai_config.API_KEY if local_openai_config.API_KEY else None
+            )
+        else:
+            log.Info("[Kizuna] 使用百度千帆 API")
+            self.qianfan = Qianfan(
+                qianfan_token.API_KEY,
+                qianfan_token.SECRET_KEY
+            )
 
         wPos.observe(lambda v: self.adjustPopupPos(v, None))
         wSize.observe(lambda v: self.adjustPopupPos(None, v))
@@ -78,9 +96,13 @@ class KizunaImpl(Kizuna):
             }
             for h in mm.hitokotos
         ]
-        msg = self.qianfan.chat(
-            chara_settings + context
-        )
+        
+        # 根据配置使用不同的 AI 服务
+        if self.USE_LOCAL_OPENAI:
+            msg = self.local_openai.chat(chara_settings + context)
+        else:
+            msg = self.qianfan.chat(chara_settings + context)
+            
         log.Info(f"[Kizuna@{waifu.name}] {msg}")
         return msg
 

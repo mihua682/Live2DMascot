@@ -9,8 +9,15 @@ class Qianfan:
     KEY_SRC = "role"
     KEY_CONTENT = "content"
 
-    MODEL: str = "ERNIE Speed-AppBuilder"
-    API: str = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/ai_apaas"
+    # 百度千帆 API 配置
+    # 可用的模型列表（根据您的应用权限选择）：
+    # - ernie_speed (ERNIE-Speed-8K)
+    # - ernie-lite-8k (ERNIE-Lite-8K)
+    # - ernie-bot (ERNIE-Bot)
+    # - ernie-bot-turbo (ERNIE-Bot-Turbo)
+    MODEL: str = "ernie_speed"
+    # API 端点格式：https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/{model_name}
+    API: str = f"https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/{MODEL}"
     VALUE_USER = "user"
     VALUE_ASSISTANT = "assistant"
 
@@ -56,9 +63,26 @@ class Qianfan:
         print("refresh access token")
         url = "https://aip.baidubce.com/oauth/2.0/token"
         params = {"grant_type": "client_credentials", "client_id": self.API_KEY, "client_secret": self.SECRET_KEY}
-        x = requests.post(url, params=params).json()
+        
+        # 打印调试信息
+        print(f"API_KEY: {self.API_KEY[:10]}..." if len(self.API_KEY) > 10 else f"API_KEY: {self.API_KEY}")
+        print(f"SECRET_KEY: {self.SECRET_KEY[:10]}..." if len(self.SECRET_KEY) > 10 else f"SECRET_KEY: {self.SECRET_KEY}")
+        
+        response = requests.post(url, params=params)
+        x = response.json()
+        
+        # 打印完整响应以便调试
+        print(f"Response: {x}")
+        
+        # 检查是否有错误
+        if 'error' in x or 'error_code' in x:
+            error_code = x.get('error_code', x.get('error', 'Unknown'))
+            error_msg = x.get('error_description', x.get('error_msg', 'Unknown error'))
+            raise Exception(f"Failed to get access token (Error {error_code}): {error_msg}")
+        
         self.access_token = x.get('access_token')
-        self.expire_at = time.time() + x.get('expires_in')
+        expires_in = x.get('expires_in', 2592000)  # 默认30天
+        self.expire_at = time.time() + expires_in
         self.save_token()
 
     def loadToken(self):
